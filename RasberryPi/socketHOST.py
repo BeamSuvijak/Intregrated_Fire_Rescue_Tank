@@ -36,6 +36,7 @@ def handcli(conn,addr):
             msg += chunk
 
         Control = bytestodic(msg)
+        print(Control)
 
 
 
@@ -48,7 +49,7 @@ def datasend(conn:socket.socket,data:dict):
     conn.send(dictobytes(data))
 
 def start():
-    global conn
+    global Conn
     setup()
     server.listen()
     print(f"[LISTENING] on {socket.gethostbyname(socket.gethostname())}")

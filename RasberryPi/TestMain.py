@@ -1,7 +1,27 @@
 import socketHOST
-
+from assestfunction import *
 socketHOST.mainsocket.start()
+import threading
 
-while True:
-    data = socketHOST.Control
-    if(data): print(data)
+from datetime import datetime
+import time
+timestamp = time.time()
+date_object = str(datetime.fromtimestamp(timestamp))
+
+
+def send():
+    while True:
+        mess = input()
+        timestamp = time.time()
+        date_object = str(datetime.fromtimestamp(timestamp))
+        dic = {
+            "name":"Bird",
+            "time":date_object,
+            "text":mess
+        }
+        snd = dictobytes(dic)
+        socketHOST.Conn.send(snd)
+
+
+SEND = threading.Thread(target=send)
+SEND.start()
