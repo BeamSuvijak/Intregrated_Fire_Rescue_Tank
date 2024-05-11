@@ -8,6 +8,7 @@ coomunicate with main
 """
 SERVER,server = None,None
 Control = dict()
+Conn = None
 def setup():
     global SERVER,server
     PORT = jsontodict("CONST.json")["PORT"]
@@ -52,6 +53,7 @@ def start():
     print(f"[LISTENING] on {socket.gethostbyname(socket.gethostname())}")
     while True:
         conn, addr = server.accept()
+        Conn = conn
         thread = threading.Thread(target = handcli, args=(conn,addr))
         thread.start()
         print(f"[ACTIVE CONNECTION] {threading.active_count()-1}")
