@@ -1,2 +1,1 @@
-import socketHOST
-
+print("This not a real main")
