@@ -32,3 +32,9 @@ def jsontodict(filename:str):
     with open(filename) as jsonstr:
         dic = json.load(jsonstr)
         return dic
+
+def chunkpending(msg):
+    message = msg.encode('utf-8')
+    msg_length = len(message)
+    send_length = struct.pack("!I", msg_length)
+    return send_length
