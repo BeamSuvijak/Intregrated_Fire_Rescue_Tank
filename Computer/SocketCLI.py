@@ -11,7 +11,7 @@ def data_recv():
     data = client.recv(1024)
     return data
 
-def data_send(dic):
+def data_send(dic): # Do not use boolean. It will crash.
     msg = dictobytes(dic)
     client.send(chunkpending(msg))
     client.send(msg)
