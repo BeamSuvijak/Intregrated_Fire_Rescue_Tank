@@ -13,7 +13,7 @@ def data_recv():
 
 def data_send(msg):
     client.send(chunkpending(msg))
-    client.send(msg)
+    client.send(dictobytes(msg))
 
 def setup():
     global client
