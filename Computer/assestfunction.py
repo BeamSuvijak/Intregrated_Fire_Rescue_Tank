@@ -27,3 +27,8 @@ def bytestoimg(msg : bytes):
     image = np.frombuffer(decoded_image, np.uint8)
     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
     return image
+
+def jsontodict(filename:str):
+    with open(filename) as jsonstr:
+        dic = json.load(jsonstr)
+        return dic
