@@ -6,13 +6,13 @@ import struct
 
 def dictobytes(dic:dict):
     message = str(dic)
-    ascii_message = message.encode('ascii')
+    ascii_message = message.encode('utf-8')
     output_byte = base64.b64encode(ascii_message)
     return output_byte
 
 def bytestodic(by:bytes):
     msg_bytes = base64.b64decode(by)
-    ascii_msg = msg_bytes.decode('ascii')
+    ascii_msg = msg_bytes.decode('utf-8')
     ascii_msg = ascii_msg.replace("'", "\"")
     output_dict = json.loads(ascii_msg)
     return output_dict
