@@ -35,13 +35,16 @@ def handcli(conn,addr):
             msg += chunk
 
         Control = bytestodic(msg)
-        print(Control)
+
 
 
     conn.close()
     print("Disconnected")
     Control = dict()
 
+
+def datasend(conn:socket.socket,data:dict):
+    conn.send(dictobytes(data))
 
 def start():
     setup()
