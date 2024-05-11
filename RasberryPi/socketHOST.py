@@ -1,27 +1,28 @@
 import socket
-import assestfunction
+from assestfunction import *
 import threading
+import struct
 """
 coomunicate with main
 -recv ip / port 
 """
-SERVER,server = None
+SERVER,server = None,None
+Control = dict()
 def setup():
     global SERVER,server
-    PORT = assestfunction.jsontodict("CONST.json")["PORT"]
+    PORT = jsontodict("CONST.json")["PORT"]
     SERVER = socket.gethostbyname(socket.gethostname())
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((SERVER,PORT))
 
 def handcli(conn,addr):
-    global prev_frame_time, new_frame_time
+    global Control
     print(f"Connection at {addr}")
     connected = True
-    dataspammerthread = threading.Thread(target = dataspammer, args=(conn,))
-    dataspammerthread.start()
     while connected:
         # continue
         l_by = conn.recv(4)
+        if not l_by: break
         msg_length = struct.unpack("!I", l_by)[0]
         msg = b""  # Initialize an empty bytes object
         while len(msg) < msg_length:
@@ -33,36 +34,13 @@ def handcli(conn,addr):
                 break
             msg += chunk
 
-        data = bytestodic(msg)
-        # print(data)
-        imgtxt = data['IMG']
-        imgby = imgtxt.encode(FORMAT)
-        img = bytestoimg(imgby)
+        Control = bytestodic(msg)
+        print(Control)
 
-        #
-        new_frame_time = time.time()
-        fps = 1 / (new_frame_time - prev_frame_time)
-        prev_frame_time = new_frame_time
-
-        fps = int(fps)
-
-        fps = str(fps)
-
-
-        img = cv2.resize(img , (420,350))
-
-        w = int(img.shape[0]/2)
-        h = int(img.shape[1]/2)
-        # detimg = detect.det(img)
-        detimg = img
-        if fps_shw: cv2.putText(detimg, fps, (7, 70), cv2.FONT_HERSHEY_SIMPLEX, 3, (100, 255, 0), 3, cv2.LINE_AA)
-        cv2.putText(detimg, '+', (w+25, h-50), cv2.FONT_HERSHEY_SIMPLEX, 4, (100, 255, 0), 3, cv2.LINE_AA)
-
-        cv2.imshow("Received Image", detimg)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
 
     conn.close()
+    print("Disconnected")
+    Control = dict()
 
 
 def start():
@@ -76,3 +54,4 @@ def start():
         print(f"[ACTIVE CONNECTION] {threading.active_count()-1}")
 
 
+mainsocket = threading.Thread(target=start)
