@@ -11,9 +11,10 @@ def data_recv():
     data = client.recv(1024)
     return data
 
-def data_send(msg):
+def data_send(dic):
+    msg = dictobytes(dic)
     client.send(chunkpending(msg))
-    client.send(dictobytes(msg))
+    client.send(msg)
 
 def setup():
     global client
