@@ -4,4 +4,4 @@ socketHOST.mainsocket.start()
 
 while True:
     data = socketHOST.Control
-    if(data!=None): print(data)
+    if(data): print(data)
