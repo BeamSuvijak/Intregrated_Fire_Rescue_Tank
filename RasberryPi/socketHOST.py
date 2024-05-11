@@ -48,6 +48,7 @@ def datasend(conn:socket.socket,data:dict):
     conn.send(dictobytes(data))
 
 def start():
+    global conn
     setup()
     server.listen()
     print(f"[LISTENING] on {socket.gethostbyname(socket.gethostname())}")
