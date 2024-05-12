@@ -25,7 +25,7 @@ def send():
           timestamp = time.time()
           date_object = datetime.fromtimestamp(timestamp)
           data = {
-               "name" : "Beam" ,
+               "name" : "Aio" ,
                "time" : str(date_object) ,
                "text" : data_msg
           }
