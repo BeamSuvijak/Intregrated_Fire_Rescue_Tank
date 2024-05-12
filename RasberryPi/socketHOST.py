@@ -36,7 +36,8 @@ def handcli(conn,addr):
             msg += chunk
 
         Control = bytestodic(msg)
-        print(Control)
+        recv_data = Control
+        print(f"[{recv_data['time']}] {recv_data['name']} : {recv_data['text']}")
 
 
 

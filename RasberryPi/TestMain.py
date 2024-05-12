@@ -1,13 +1,13 @@
 import socketHOST
 from assestfunction import *
-socketHOST.mainsocket.start()
 import threading
-
 from datetime import datetime
 import time
+
+socketHOST.mainsocket.start()
+
 timestamp = time.time()
 date_object = str(datetime.fromtimestamp(timestamp))
-
 
 def send():
     while True:
