@@ -8,7 +8,7 @@ def setup():
     print(ultralytics.settings)
     #model = ultralytics.YOLO('bottle_latest.pt')
 
-def process(frame):
+def process(frame, Show_frame):
     results = model.predict(frame, save=False, imgsz=320, conf=0.25, verbose=False)
     names = model.names
     boxes = results[0].boxes.xywh.cpu()
@@ -26,7 +26,7 @@ def process(frame):
             "Width": w.item(),
             "Height": h.item()
         }
-
-    cv2.imshow('frame', frame_)
-    cv2.waitKey(1)
+    if Show_frame:
+        cv2.imshow('frame', frame_)
+        cv2.waitKey(1)
     return box_locat
