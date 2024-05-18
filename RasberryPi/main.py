@@ -18,11 +18,12 @@ def SEND():
         if frame:
             datasend['frame'] = frame
         """status"""
-        socketHOST.Conn.send(dictobytes(datasend))
+        socketHOST.data_send(socketHOST.Conn,datasend)
 
 def RECV():
-    data = socketHOST.chunkrecv(socketHOST.Conn)
-    operate.run(data)
+    while True:
+        data = socketHOST.chunkrecv(socketHOST.Conn)
+        operate.run(data)
 
 
 SENDthread = threading.Thread(target=SEND)

@@ -1,2 +1,2 @@
-def run():
-    """something"""
+def run(data):
+    print(data)
