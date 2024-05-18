@@ -11,6 +11,7 @@ deg=0
 show = False
 joystick = None
 controlling = dict()
+button_states = {}
 
 
 def ui(x,y):
@@ -34,48 +35,48 @@ def ui(x,y):
         else: print(" ")
 
 
-def packaging(x,y):
-    global controlling
-    controlling = {
-        "axis1" : {
-            "X" : {x} ,
-            "Y" : {y} ,
-            "D" : {D} ,
-            "Degree" : {deg} ,
-            "L" : {L} ,
-            "R" : {R}
-        } ,
-        "axis2" : {
-            "X" : 1,
-            "Y" : 1,
-            "D" : 1,
-            "Degree" : 1,
-            "L" : 1,
-            "R" : 1
-        } ,
-        "LeftButton" : {
-            "1" : 1 ,
-            "2" : 2 ,
-            "3" : 3 ,
-            "4" : 4
-        } ,
-        "RightButton": {
-            "1": 1,
-            "2": 2,
-            "3": 3,
-            "4": 4
-        }
-    }
-
 def mapping(value, leftMin, leftMax, rightMin, rightMax):
     leftSpan = leftMax - leftMin
     rightSpan = rightMax - rightMin
     valueScaled = float(value - leftMin) / float(leftSpan)
     return rightMin + (valueScaled * rightSpan)
 
+def calc(x,y):
+    d = math.sqrt(x ** 2 + y ** 2)
+    D = d
+    deg = math.degrees(math.atan2(y, x))
+    rev = deg < 0
+    if (d > 100): d = 100
+    if (not rev):
+        l = 180 - deg
+        r = deg
+        if (l > 90): l = 90
+        if (r > 90): r = 90
+        l = mapping(l, 0, 90, 0, 100)
+        r = mapping(r, 0, 90, 0, 100)
+
+        L = l * d / 100
+        R = r * d / 100
+    else:
+        r = deg
+        l = -180 - deg
+        L = mapping(l, -90, 0, -100, 0) * d / 100
+        R = mapping(r, -90, 0, -100, 0) * d / 100
+    return (L,R,D)
+
+def packaging():
+    global controlling
+    controlling = {
+        "Drive" : {
+            "L" : {L} ,
+            "R" : {R}
+        },
+        "Button" : button_states
+    }
+
 
 def run():
-    global L, R, D, deg
+    global L, R, D, deg, button_states
     while True:
         # Event handling
         for event in pygame.event.get():
@@ -84,31 +85,16 @@ def run():
                 quit()
         x = math.ceil(joystick.get_axis(0) * 100)
         y = math.ceil(joystick.get_axis(1) * -100)
-        d = math.sqrt(x ** 2 + y ** 2)
-        D = d
-        deg = math.degrees(math.atan2(y, x))
-        rev = deg < 0
-        if (d > 100): d = 100
-        if (not rev):
-            l = 180 - deg
-            r = deg
-            if (l > 90): l = 90
-            if (r > 90): r = 90
-            l = mapping(l, 0, 90, 0, 100)
-            r = mapping(r, 0, 90, 0, 100)
+        L,R,D = calc(x,y)
 
-            L = l * d / 100
-            R = r * d / 100
-        else:
-            r = deg
-            l = -180 - deg
-            L = mapping(l, -90, 0, -100, 0) * d / 100
-            R = mapping(r, -90, 0, -100, 0) * d / 100
+        pre_button_states = {}
+        for i in range(joystick.get_numbuttons()):
+                pre_button_states[f'B{i}'] = joystick.get_button(i)
 
+        button_states = pre_button_states
         if show: ui(x, y)
-
         time.sleep(0.01)
-        os.system('cls')
+        # os.system('cls')
 def setup():
     global show,joystick
     pygame.init()
@@ -126,16 +112,3 @@ def setup():
         print(f"Number of Axes: {joystick.get_numaxes()}")
         print(f"Number of Buttons: {joystick.get_numbuttons()}")
 
-setup()
-run()
-
-while True:
-    button_states = {}
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
-    for i in range(joystick.get_numbuttons()):
-            button_states[f'button_{i}'] = joystick.get_button(i)
-
-    print(button_states)
