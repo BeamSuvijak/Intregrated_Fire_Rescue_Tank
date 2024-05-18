@@ -1,4 +1,5 @@
 import cv2
+import assestfunction
 cap = None
 def setup():
     global cap
@@ -12,4 +13,4 @@ def fetch():
     else:
         print("Can't Open Camera")
         frame = None
-    return frame
+    return assestfunction.imgtotxt(frame)
