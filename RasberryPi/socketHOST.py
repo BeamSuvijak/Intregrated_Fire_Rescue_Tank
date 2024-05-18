@@ -9,6 +9,7 @@ coomunicate with main
 SERVER,server = None,None
 Control = dict()
 Conn = None
+connected = False
 def setup():
     global SERVER,server
     PORT = jsontodict("CONST.json")["PORT"]
@@ -16,34 +17,40 @@ def setup():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((SERVER,PORT))
 
-def handcli(conn,addr):
-    global Control
-    print(f"Connection at {addr}")
-    connected = True
-    while connected:
-        # continue
-        l_by = conn.recv(4)
-        if not l_by: break
-        msg_length = struct.unpack("!I", l_by)[0]
-        msg = b""  # Initialize an empty bytes object
-        while len(msg) < msg_length:
-            # Keep reading until the entire message has been received
-            chunk = conn.recv(msg_length - len(msg))
-            if chunk == b"":
-                # Connection was closed unexpectedly
-                connected = False
-                break
-            msg += chunk
-
-        Control = bytestodic(msg)
-        recv_data = Control
-        print(f"[{recv_data['time']}] {recv_data['name']} : {recv_data['text']}")
+def chunkrecv(conn:socket.socket):
+    global connected
+    l_by = conn.recv(4)
+    if not l_by:
+        connected = False
+    msg_length = struct.unpack("!I", l_by)[0]
+    msg = b""  # Initialize an empty bytes object
+    while len(msg) < msg_length:
+        # Keep reading until the entire message has been received
+        chunk = conn.recv(msg_length - len(msg))
+        if chunk == b"":
+            # Connection was closed unexpectedly
+            connected = False
+            break
+        msg += chunk
+    return bytestodic(msg)
 
 
-
-    conn.close()
-    print("Disconnected")
-    Control = dict()
+# def handcli(conn,addr):
+#     global Control, connected
+#     print(f"Connection at {addr}")
+#     connected = True
+#     while connected:
+#         # continue
+#         msg = chunkrecv(conn)
+#         Control = bytestodic(msg)
+#         recv_data = Control
+#         print(f"[{recv_data['time']}] {recv_data['name']} : {recv_data['text']}")
+#
+#
+#
+#     conn.close()
+#     print("Disconnected")
+#     Control = dict()
 
 
 def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
@@ -57,11 +64,7 @@ def start():
     server.listen()
     print(f"[LISTENING] on {socket.gethostbyname(socket.gethostname())}")
     while True:
-        conn, addr = server.accept()
-        Conn = conn
-        thread = threading.Thread(target = handcli, args=(conn,addr))
-        thread.start()
-        print(f"[ACTIVE CONNECTION] {threading.active_count()-1}")
+        Conn, addr = server.accept()
 
 
 mainsocket = threading.Thread(target=start)
