@@ -6,7 +6,7 @@ controlling = dict()
 def setup():
     pygame.init()
 
-def read_KB():
+def run():
     global running, controlling
     running = True
     while running:
