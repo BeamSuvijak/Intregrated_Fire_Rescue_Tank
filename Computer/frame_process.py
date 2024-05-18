@@ -8,7 +8,7 @@ def setup():
     print(ultralytics.settings)
     #model = ultralytics.YOLO('bottle_latest.pt')
 
-def process(frame, Show_frame):
+def process(frame, Show_frame=False):
     results = model.predict(frame, save=False, imgsz=320, conf=0.25, verbose=False)
     names = model.names
     boxes = results[0].boxes.xywh.cpu()
@@ -20,6 +20,7 @@ def process(frame, Show_frame):
         x, y, w, h = box
         class_name = names[int(cls_idx)]
         box_locat["Box" + str(count)] = {
+            "Header": "frame",
             "Class": class_name,
             "X": x.item(),
             "Y": y.item(),
