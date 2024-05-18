@@ -12,7 +12,7 @@ show = False
 joystick = None
 controlling = dict()
 
-'''
+
 def ui(x,y):
     print(f"X : {x}")
     print(f"Y : {y}")
@@ -32,7 +32,7 @@ def ui(x,y):
         print("       ",end='')
         if((R/10 >= i and i>0) or (R/10 <=i and i<0)): print("*")
         else: print(" ")
-'''
+
 
 def packaging(x,y):
     global controlling
@@ -125,3 +125,17 @@ def setup():
         print(f"Joystick Name: {joystick.get_name()}")
         print(f"Number of Axes: {joystick.get_numaxes()}")
         print(f"Number of Buttons: {joystick.get_numbuttons()}")
+
+setup()
+run()
+
+while True:
+    button_states = {}
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+    for i in range(joystick.get_numbuttons()):
+            button_states[f'button_{i}'] = joystick.get_button(i)
+
+    print(button_states)
