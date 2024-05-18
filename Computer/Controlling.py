@@ -1,5 +1,4 @@
 import ControllingMethod as CM
-import pygame
 method = 0
 PID = False
 
@@ -24,12 +23,15 @@ def setup():
         CM.Keyboard.run()
 
 usage = [readKB,readJoy]
-controlling_value = usage[method]
-controlling_value["Header"] = "Control"
 
-prvpid = False
-if(controlling_value["F9"] and controlling_value["F9"]!=prvpid): PID,prvpid = not PID,PID
+def fetch():
+    controlling_value = usage[method]
+    controlling_value["Header"] = "Control"
 
-if(PID):
-    controlling_value["Drive"] = readPID()
+    prvpid = False
+    if(controlling_value["F9"] and controlling_value["F9"]!=prvpid): PID,prvpid = not PID,PID
 
+    if(PID):
+        controlling_value["Drive"] = readPID()
+
+    return controlling_value
