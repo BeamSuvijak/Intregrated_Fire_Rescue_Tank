@@ -3,13 +3,15 @@ import threading
 import time
 from assestfunction import *
 from datetime import datetime
+import cv2
+import frame_process
 
 
 
 
-SocketCLI.setup()
+#SocketCLI.setup()
 
-recv_data = dict()
+#recv_data = dict()
 
 def recieve():
      global recv_data
@@ -31,9 +33,18 @@ def send():
           }
           SocketCLI.data_send(data)
 
+def test_process():
+     cap = cv2.VideoCapture(0)
+     frame_process.setup()
+     while True:
+          ret, frame = cap.read()
+          result = frame_process.process(frame)
+          print(result)
+
 if __name__ == "__main__":
-     send_Thread = threading.Thread(target=send)
-     recieve_Thread = threading.Thread(target=recieve)
-     send_Thread.start()
-     recieve_Thread.start()
+     test_process()
+     # send_Thread = threading.Thread(target=send)
+     # recieve_Thread = threading.Thread(target=recieve)
+     # send_Thread.start()
+     # recieve_Thread.start()
 
