@@ -46,8 +46,10 @@ def handcli(conn,addr):
     Control = dict()
 
 
-def datasend(conn:socket.socket,data:dict):
-    conn.send(dictobytes(data))
+def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
+    msg = dictobytes(dic)
+    conn.send(chunkpending(msg))
+    conn.send(msg)
 
 def start():
     global Conn
