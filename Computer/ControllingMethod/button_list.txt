@@ -1,0 +1,14 @@
+F0 = Change Mode KB/Joy = Z
+F1
+F2
+F3
+F4,F5 = To shoot = ENTER
+F6 = Pump = SPACE
+F7 = Reload = R
+F8 = Information = TAB
+F9 = Using AutoAim(PID) = V
+F10 + F11 + delay= Shutdown = ESC + delay
+
+Move WASD
+
+Aim = Q,E
