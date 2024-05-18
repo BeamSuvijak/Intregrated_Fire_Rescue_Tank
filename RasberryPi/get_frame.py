@@ -1,8 +1,15 @@
 import cv2
-
+cap = None
 def setup():
+    global cap
     cap = cv2.VideoCapture(0)
 
+
+
 def fetch():
-    _, frame = cv2.read()
+    if cap.isOpened():
+        _, frame = cv2.read()
+    else:
+        print("Can't Open Camera")
+        frame = None
     return frame
