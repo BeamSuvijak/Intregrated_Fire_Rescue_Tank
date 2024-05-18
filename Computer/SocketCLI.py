@@ -9,6 +9,7 @@ client = None
 
 def data_recv():
     data = client.recv(1024)
+    # waiting for decode...
     return data
 
 def data_send(dic): # Do not use boolean. It will crash.
