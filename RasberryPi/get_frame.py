@@ -1,4 +1,6 @@
 import cv2
+import numpy
+
 import assestfunction
 cap = None
 def setup():
@@ -9,8 +11,9 @@ def setup():
 
 def fetch():
     if cap.isOpened():
-        _, frame = cv2.read()
+        _, frame = cap.read()
+        return assestfunction.imgtotxt(frame)
+
     else:
         print("Can't Open Camera")
-        frame = None
-    return assestfunction.imgtotxt(frame)
+

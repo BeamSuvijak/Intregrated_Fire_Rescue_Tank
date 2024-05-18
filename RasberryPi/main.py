@@ -16,7 +16,7 @@ def SEND():
     while True:
         frame = get_frame.fetch()
         if frame:
-            datasend['frame'] = imgtotxt(frame)
+            datasend['frame'] = frame
         """status"""
         socketHOST.Conn.send(dictobytes(datasend))
 
