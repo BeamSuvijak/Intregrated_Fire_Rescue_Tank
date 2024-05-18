@@ -17,7 +17,7 @@ def bytestodic(by:bytes):
     output_dict = json.loads(ascii_msg)
     return output_dict
 
-def imgtotxt(image):
+def imgtotxt(image:np.ndarray):
     retval, buffer = cv2.imencode('.jpg', image)
     jpg_as_text = base64.b64encode(buffer).decode('utf-8')
     jpg_as_text += "=" * (4 - (len(jpg_as_text) % 4))
