@@ -4,7 +4,7 @@ import time
 import json
 from assestfunction import *
 
-IP = "172.20.10.10"
+IP = "172.20.10.3"
 client = None
 
 def data_recv():
@@ -31,8 +31,7 @@ def data_send(dic): # Do not use boolean. It will crash.
 def setup():
     global client
     PORT = jsontodict("CONST.json")["PORT"]
+    print(PORT, IP)
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.settimeout(None)
     client.connect((IP, PORT))
 
-setup()

@@ -69,12 +69,13 @@ def packaging():
     global controlling
     controlling = {
         "Drive" : {
-            "L" : {L} ,
-            "R" : {R}
+            "L" : L ,
+            "R" : R
         },
         "Button" : button_states,
         "Aim" : aiming
     }
+    return controlling
 
 
 def run():
@@ -114,5 +115,4 @@ def setup():
         print(f"Number of Buttons: {joystick.get_numbuttons()}")
 
 
-setup()
-run()
+THREADrun = Thread(target=run)

@@ -1,4 +1,5 @@
-import ControllingMethod as CM
+import ControllingMethod.Keyboard as KB
+import ControllingMethod.Joystick as JS
 method = 0
 PID = False
 
@@ -7,31 +8,34 @@ PID = False
 1 : Joystick
 """
 
-def readJoy():CM.Joystick.packaging()
-def readKB():CM.KB.packaging()
+def readJoy():JS.packaging()
+def readKB():KB.packaging()
 
-def readPID():CM.PID.packaging().get("Drive")
+# def readPID():CM.PID.packaging().get("Drive")
 
 def setup():
     global method
-    CM.Keyboard.setup()
+    KB.setup()
     try:
-        CM.Joystick.setup()
-        CM.Joystick.run()
+        JS.setup()
+        JS.THREADrun.start()
         method = 1
     except:
-        CM.Keyboard.run()
+        KB.run()
+    print("M: ",method)
 
 usage = [readKB,readJoy]
 
 def fetch():
-    controlling_value = usage[method]
-    controlling_value["Header"] = "Control"
-
+    global PID
+    controlling_value = JS.packaging()
+    controlling_value["Header"] = 'Control'
     prvpid = False
-    if(controlling_value["F9"] and controlling_value["F9"]!=prvpid): PID,prvpid = not PID,PID
+    if(controlling_value["Button"]["F9"] and controlling_value["Button"]["F9"]!=prvpid): PID,prvpid = not PID,PID
 
-    if(PID):
-        controlling_value["Drive"] = readPID()
+    # if(PID):
+        # controlling_value["Drive"] = readPID()
 
     return controlling_value
+
+def packaging(): return 0
