@@ -20,5 +20,7 @@ def setup():
     global client
     PORT = jsontodict("CONST.json")["PORT"]
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.settimeout(None)
     client.connect((IP, PORT))
 
+setup()
