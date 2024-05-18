@@ -38,7 +38,7 @@ def test_process():
      frame_process.setup()
      while True:
           ret, frame = cap.read()
-          result = frame_process.process(frame)
+          result = frame_process.process(frame , False)
           print(result)
 
 if __name__ == "__main__":
