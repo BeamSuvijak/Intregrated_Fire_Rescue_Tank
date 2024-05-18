@@ -12,6 +12,7 @@ show = False
 joystick = None
 controlling = dict()
 button_states = {}
+aiming = 0
 
 
 def ui(x,y):
@@ -71,12 +72,13 @@ def packaging():
             "L" : {L} ,
             "R" : {R}
         },
-        "Button" : button_states
+        "Button" : button_states,
+        "Aim" : aiming
     }
 
 
 def run():
-    global L, R, D, deg, button_states
+    global L, R, D, deg, button_states, aiming
     while True:
         # Event handling
         for event in pygame.event.get():
@@ -89,10 +91,9 @@ def run():
 
         pre_button_states = {}
         for i in range(joystick.get_numbuttons()):
-                pre_button_states[f'B{i}'] = joystick.get_button(i)
-
+                pre_button_states[f'F{i}'] = joystick.get_button(i)
         button_states = pre_button_states
-        if show: ui(x, y)
+        aiming = joystick.get_hat(0)[1]
         time.sleep(0.01)
         # os.system('cls')
 def setup():
@@ -112,3 +113,6 @@ def setup():
         print(f"Number of Axes: {joystick.get_numaxes()}")
         print(f"Number of Buttons: {joystick.get_numbuttons()}")
 
+
+setup()
+run()
