@@ -10,7 +10,7 @@ socketHOST.mainsocket.start()
 get_frame.setup()
 
 datasend = {}
-
+while not socketHOST.connected: pass
 def SEND():
     global datasend
     while True:
@@ -23,6 +23,8 @@ def SEND():
 def RECV():
     data = socketHOST.chunkrecv(socketHOST.Conn)
     operate.run(data)
+
+
 SENDthread = threading.Thread(target=SEND)
 RECVthread = threading.Thread(target=RECV)
 RECVthread.start()
