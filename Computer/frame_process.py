@@ -12,7 +12,7 @@ def setup():
     global model
     model = YOLO("yolov8n-seg.pt")
 
-def process2(frame,Show_frame=False):
+def process(frame,Show_frame=False):
     box_locat = dict()
     annotator = Annotator(frame, line_width=2)
 
