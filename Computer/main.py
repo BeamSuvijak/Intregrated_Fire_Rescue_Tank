@@ -9,7 +9,6 @@ import cv2
 recieved_data = None
 frame_processdata = {}
 
-
 def RECV():
     global recieved_data,frame_processdata
     while True:

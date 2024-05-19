@@ -1,34 +1,34 @@
-Kp,Ki,Kd = 1, 1, 0
-time = 0
-integral = 0
-time_prev = -1e-6
-e_prev = 0
-def change_settings(p,i,d):
-    global Kp,Ki,Kd
-    Kp,Ki,Kd = p,i,d
+
+class PID:
+    def __init__(self,KP,KI,KD):
+        self.KP = KP
+        self.KI = KI
+        self.KD = KD
+        self.error = 0
+        self.laster = 0
+        self.sum = 0
+
+    def calc(self):
+        return self.error*self.KP + self.sum*self.KI + self.laster*self.KD
 
 
-def PID(setpoint, measurement):
-    global time, integral, time_prev, e_prev
+class OBJ:
+    def __init__(self,pos_x,pos_y):
+        self.x = pos_x
+        self.speed = 0
+        self.pid = PID(0.5,0.2,0.1)
 
-    # Value of offset - when the error is equal zero
-    offset = 320
+    # Function to move the ball right
+    def move(self):
+        control = {
+            "L" : -self.speed ,
+            "R" : self.speed
+        }
+        return control
 
-    # PID calculations
-    e = setpoint - measurement
-
-    P = Kp * e
-    integral = integral + Ki * e * (time - time_prev)
-    D = Kd * (e - e_prev) / (time - time_prev)
-
-    # calculate manipulated variable - MV
-    MV = offset + P + integral + D
-
-    # update stored data for next iteration
-    e_prev = e
-    time_prev = time
-    return MV
-
-def start_PID(object_x,object_y,SCREEN_WIDTH,SCREEN_HEIGHT):
-    while object_x - (SCREEN_WIDTH / 2) <= 1e-2 and object_y - (SCREEN_HEIGHT / 2) <= 1e-2:
-        print("KUY")
+    def updateerrorx(self,error):
+        self.pid.laster = self.pid.error
+        self.pid.error = error
+        self.pid.sum+=error
+        self.speed = self.pid.calc()
+        self.move()
