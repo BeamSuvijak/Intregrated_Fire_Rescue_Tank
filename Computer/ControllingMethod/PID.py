@@ -26,9 +26,10 @@ class OBJ:
         }
         return control
 
-    def updateerrorx(self,error):
+    def updateerrorx(self,x_pid):
+        error = self.x - x_pid
         self.pid.laster = self.pid.error
         self.pid.error = error
         self.pid.sum+=error
         self.speed = self.pid.calc()
-        self.move()
+        return self.move()

@@ -19,14 +19,14 @@ def RECV():
         npframe = bytestoimg(frame)
         cv2.imshow('frame',npframe)
         cv2.waitKey(1)
-        # if frame:
-        #     frame_processdata = frame_process(npframe)
-        #     print(frame_processdata)
-        # else: print("err")
+        if frame:
+            (frame_processdata, frame_processed) = frame_process(npframe)
+            print(frame_processdata)
+        else: print("err")
 
 def SEND():
     while True:
-        data = Controlling.fetch()
+        data = Controlling.fetch(frame_processdata["0"]["X"] + frame_processdata["0"]["Width"]) # Set to controlling.py
         SocketCLI.data_send(data)
         print(data)
         time.sleep(0.05)

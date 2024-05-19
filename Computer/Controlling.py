@@ -3,8 +3,7 @@ import ControllingMethod.Joystick as JS
 from ControllingMethod.PID import OBJ
 method = 0
 PID = False
-SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+obj = OBJ(1920/2)
 """
 0 : Keyboard
 1 : Joystick
@@ -28,7 +27,7 @@ def setup():
 
 usage = [readKB,readJoy]
 
-def fetch():
+def fetch(x_pid):
     global PID
     controlling_value = JS.packaging()
     controlling_value["Header"] = 'Control'
@@ -36,6 +35,6 @@ def fetch():
     if(controlling_value["Button"]["F9"] and controlling_value["Button"]["F9"]!=prvpid): PID,prvpid = not PID,PID
 
     if(PID):
-        controlling_value["Drive"] = readPID()
+        controlling_value["Drive"] = obj.updateerrorx(x_pid)
 
     return controlling_value
