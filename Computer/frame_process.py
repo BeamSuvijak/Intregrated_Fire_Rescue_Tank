@@ -38,4 +38,4 @@ def process2(frame,Show_frame=False):
     if Show_frame:
         cv2.imshow("instance-segmentation-object-tracking", frame)
         cv2.waitKey(1)
-    return box_locat
+    return (box_locat, frame)
