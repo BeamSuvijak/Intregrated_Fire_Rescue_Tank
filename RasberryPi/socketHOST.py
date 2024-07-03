@@ -10,8 +10,9 @@ SERVER,server = None,None
 Control = dict()
 Conn = None
 connected = False
+PORT = None
 def setup():
-    global SERVER,server
+    global SERVER,server,PORT
     PORT = jsontodict("CONST.json")["PORT"]
     SERVER = socket.gethostbyname(socket.gethostname())
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -54,18 +55,20 @@ def chunkrecv(conn:socket.socket):
 
 
 def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
-    msg = dictobytes(dic)
-    conn.send(chunkpending(msg))
-    conn.send(msg)
+    if connected:
+        msg = dictobytes(dic)
+        conn.send(chunkpending(msg))
+        conn.send(msg)
 
 def start():
-    global Conn
+    global Conn,connected
     setup()
     server.listen()
-    print(f"[LISTENING] on {socket.gethostbyname(socket.gethostname())} [PORT] {jsontodict('CONST.json')['PORT']}")
+    print(f"[LISTENING] on {socket.gethostbyname(SERVER)} PORT:{PORT}")
     while True:
         Conn, addr = server.accept()
-        print("Connected")
+        connected = True
+        print("Client Connected")
 
 
 mainsocket = threading.Thread(target=start)
