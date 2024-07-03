@@ -105,6 +105,7 @@ def setup():
     joystick_count = pygame.joystick.get_count()
     if joystick_count == 0:
         print("No joystick found.")
+        return 1
     else:
         # Initialize the first joystick
         joystick = pygame.joystick.Joystick(0)
@@ -113,6 +114,7 @@ def setup():
         print(f"Joystick Name: {joystick.get_name()}")
         print(f"Number of Axes: {joystick.get_numaxes()}")
         print(f"Number of Buttons: {joystick.get_numbuttons()}")
+        return 0
 
 
 THREADrun = Thread(target=run)

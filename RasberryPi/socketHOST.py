@@ -62,9 +62,10 @@ def start():
     global Conn
     setup()
     server.listen()
-    print(f"[LISTENING] on {socket.gethostbyname(socket.gethostname())}")
+    print(f"[LISTENING] on {socket.gethostbyname(socket.gethostname())} [PORT] {jsontodict('CONST.json')['PORT']}")
     while True:
         Conn, addr = server.accept()
+        print("Connected")
 
 
 mainsocket = threading.Thread(target=start)

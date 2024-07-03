@@ -4,7 +4,7 @@ import time
 import json
 from assestfunction import *
 
-IP = "172.20.10.3"
+IP = jsontodict("CONST.json")["IP"]
 client = None
 
 def data_recv():
