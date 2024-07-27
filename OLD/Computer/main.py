@@ -3,7 +3,6 @@ import SocketCLI
 import Controlling
 from threading import Thread
 import frame_process
-import struct
 from assestfunction import *
 import cv2
 recieved_data = None

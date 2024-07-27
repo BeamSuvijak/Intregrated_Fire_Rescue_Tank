@@ -1,5 +1,4 @@
 import cv2
-import numpy
 
 import assestfunction
 cap = None

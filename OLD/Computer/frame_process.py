@@ -39,3 +39,9 @@ def process(frame,Show_frame=False):
         cv2.imshow("instance-segmentation-object-tracking", frame)
         cv2.waitKey(1)
     return (box_locat, frame)
+
+if __name__ == "__main__":
+    cap = cv2.VideoCapture(0)
+    while True:
+        _, frame = cap.read()
+        process(frame, True)

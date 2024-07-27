@@ -1,5 +1,4 @@
 import SocketCLI
-import threading
 import time
 from assestfunction import *
 from datetime import datetime
@@ -38,7 +37,7 @@ def test_process():
      frame_process.setup()
      while True:
           ret, frame = cap.read()
-          result = frame_process.process(frame , False)
+          result = frame_process.process(frame, False)
           print(result)
 
 if __name__ == "__main__":

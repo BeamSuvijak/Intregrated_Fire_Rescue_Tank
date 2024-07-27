@@ -1,8 +1,5 @@
 import socketHOST
-from assestfunction import *
 import threading
-from datetime import datetime
-import time
 import operate
 import get_frame
 
@@ -18,7 +15,7 @@ def SEND():
         if frame:
             datasend['frame'] = frame
         """status"""
-        socketHOST.data_send(socketHOST.Conn,datasend)
+        socketHOST.data_send(socketHOST.Conn, datasend)
 
 def RECV():
     while True:
