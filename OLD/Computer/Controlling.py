@@ -18,7 +18,7 @@ def setup():
     global method
     KB.setup()
     try:
-        JS.setup()
+        method = JS.setup()
         JS.THREADrun.start()
         method = 1
     except:
@@ -32,7 +32,7 @@ def fetch(x_pid):
     controlling_value = JS.packaging()
     controlling_value["Header"] = 'Control'
     prvpid = False
-    if(controlling_value["Button"]["F9"] and controlling_value["Button"]["F9"]!=prvpid): PID,prvpid = not PID,PID
+    if(controlling_value["Button"].get("F9") and controlling_value["Button"].get("F9")!=prvpid): PID,prvpid = not PID,PID
 
     if(PID):
         controlling_value["Drive"] = obj.updateerrorx(x_pid)

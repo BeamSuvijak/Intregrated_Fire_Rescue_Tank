@@ -15,7 +15,6 @@ def setup():
     global SERVER,server,PORT
     PORT = jsontodict("CONST.json")["PORT"]
     SERVER = socket.gethostbyname(socket.gethostname())
-    SERVER = "172.20.10.3"
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((SERVER,PORT))
 
