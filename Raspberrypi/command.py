@@ -48,11 +48,6 @@ def init():
     for pin in [16,18,13,15]: gpio.setup(pin,gpio.OUT)
 init()
 
-def update(REC_CTRL : dict):
-    global control
-    control = REC_CTRL
-
-
 def driveL():
     logic = control["MOTOR"]["L"]
     if(logic==0): gpio.output([ml1,ml2],0)
@@ -86,18 +81,19 @@ def relay():
         gpio.output(v,complogic[k])
 
 def process():
-    while True:
-        """ DRIVE """
-        driveL(),driveR()
+    """ DRIVE """
+    driveL(),driveR()
 
-        """ STEPPER """
-        stepper()
+    """ STEPPER """
+    stepper()
 
-        """ RELAY """
-        relay()
-thd = threading.Thread(target=process)
+    """ RELAY """
+    relay()
 
+def update(REC_CTRL : dict):
+    global control
+    control = REC_CTRL
+    process()
 
 if __name__ == "__main__" :
     print("MAIN")
-else: thd.start()

@@ -2,6 +2,6 @@ import keyboard
 import command
 
 while True:
-    control = keyboard.controlK
-    command.update(control)
+    controlX = keyboard.controlK
+    command.update(controlX)
     # print(control["pump"],control["solinoid"])
