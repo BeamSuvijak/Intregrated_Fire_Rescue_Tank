@@ -40,7 +40,7 @@ light = [1,2,3]
 def init():
     gpio.setmode(gpio.BOARD)
     gpio.setup(steppin,gpio.OUT)
-    gpio.setup(dir,gpio.OUT)
+    gpio.setup(pindir,gpio.OUT)
     gpio.setup(pump,gpio.OUT)
     gpio.setup(soli,gpio.OUT)
     gpio.setup(liup,gpio.IN)
@@ -72,17 +72,18 @@ def stop():
     gpio.output(ml2,0)
 
 def stepper():
-    gpio.output(pindir,control["stepper"]["dir"])
-    gpio.output(steppin,1)
-    time.sleep(0.00075)
-    gpio.output(steppin,0)
-    time.sleep(0.00075)
+    if(control["stepper"]["operate"]):
+        gpio.output(pindir,control["stepper"]["dir"])
+        gpio.output(steppin,1)
+        time.sleep(0.00075)
+        gpio.output(steppin,0)
+        time.sleep(0.00075)
 
 def relay():
     port = [11,31]
     complogic = [control["pump"],control["solinoid"]]
     for k,v in enumerate(port):
-        gpio.output(k,complogic[v])
+        gpio.output(v,complogic[k])
 
 def process():
     while True:

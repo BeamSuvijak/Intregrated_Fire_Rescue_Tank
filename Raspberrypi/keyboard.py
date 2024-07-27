@@ -20,7 +20,7 @@ control_template = {
         "operating" : 0
     }
 }
-control = control_template
+controlK = control_template
 esc = 41
 W,A,S,D,C,Q,E = 26,4,22,7,6,20,8
 Enter = 40
@@ -33,7 +33,7 @@ def inn(lst:list,*args):
 
 
 def run():
-    global control
+    global controlK
     pygame.init()
     screen = pygame.display.set_mode((640, 480))
     pre_pressed_keys=[]
@@ -72,7 +72,7 @@ def run():
         precontrol["stepper"]["dir"] = abs(status)
         if status==-1: precontrol["stepper"]["operate"] = 0
         else: precontrol["stepper"]["operate"] = 1
-        control = precontrol
+        controlK = precontrol
     pygame.quit()
 
 thd = threading.Thread(target=run)
