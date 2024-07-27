@@ -26,7 +26,7 @@ def process(frame,Show_frame=False):
 
         for mask, track_id, class_id,pos_id in zip(masks, track_ids,class_ids,pos_ids):
             if class_id == 0: #Check if it a bottle
-                annotator.seg_bbox(mask=mask, mask_color=colors(track_id, True), track_label=str(track_id))
+                annotator.seg_bbox(mask=mask, mask_color=colors(track_id, True), label=str(track_id),txt_color=(255, 255, 255))
                 box_locat[str(track_id)] = {
                     "Header": "frame",
                     "Class": class_id,
