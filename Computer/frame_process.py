@@ -10,7 +10,7 @@ model = None
 
 def setup():
     global model
-    model = YOLO("yolov8n-seg.pt")
+    model = YOLO("BottleGen1.pt")
 
 def process(frame,Show_frame=False):
     box_locat = dict()
@@ -25,7 +25,7 @@ def process(frame,Show_frame=False):
         pos_ids = results[0].boxes.xywh
 
         for mask, track_id, class_id,pos_id in zip(masks, track_ids,class_ids,pos_ids):
-            if class_id == 39: #Check if it a bottle
+            if class_id == 0: #Check if it a bottle
                 annotator.seg_bbox(mask=mask, mask_color=colors(track_id, True), track_label=str(track_id))
                 box_locat[str(track_id)] = {
                     "Header": "frame",

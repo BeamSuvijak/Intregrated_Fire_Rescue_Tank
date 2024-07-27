@@ -15,7 +15,6 @@ def setup():
 def process(frame,Show_frame=False):
     box_locat = dict()
     annotator = Annotator(frame, line_width=2)
-
     results = model.track(frame, persist=True, verbose=False)
 
     if results[0].boxes.id is not None and results[0].masks is not None:
@@ -41,6 +40,7 @@ def process(frame,Show_frame=False):
     return (box_locat, frame)
 
 if __name__ == "__main__":
+    setup()
     cap = cv2.VideoCapture(0)
     while True:
         _, frame = cap.read()
