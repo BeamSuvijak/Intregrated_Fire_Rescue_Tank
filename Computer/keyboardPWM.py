@@ -56,14 +56,14 @@ def run(prn=False):
         # print(pressed_keys)
         if esc in pressed_keys: running = False
         motor = [0,0]
-        if(inn(pressed_keys,W,A)): motor = [100,0]
-        elif(inn(pressed_keys,W,D)): motor = [0,100]
-        elif(inn(pressed_keys,S,A)): motor = [-100,0]
-        elif(inn(pressed_keys,S,D)): motor = [0,-100]
+        if(inn(pressed_keys,W,A)): motor = [0,100]
+        elif(inn(pressed_keys,W,D)): motor = [100,0]
+        elif(inn(pressed_keys,S,A)): motor = [0,-100]
+        elif(inn(pressed_keys,S,D)): motor = [-100,0]
         elif(inn(pressed_keys,W)): motor = [100,100]
-        elif(inn(pressed_keys,A)): motor = [100,-100]
+        elif(inn(pressed_keys,A)): motor = [-100,100]
         elif(inn(pressed_keys,S)): motor = [-100,-100]
-        elif(inn(pressed_keys,D)): motor = [-100,100]
+        elif(inn(pressed_keys,D)): motor = [100,-100]
         precontrol["MOTOR"]["L"],precontrol["MOTOR"]["R"] = motor
         if(prn): print(motor[0],motor[1])
 
