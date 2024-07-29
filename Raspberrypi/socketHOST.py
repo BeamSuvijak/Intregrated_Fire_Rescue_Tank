@@ -11,6 +11,7 @@ Control = dict()
 Conn = None
 connected = False
 PORT = None
+ControlS = {}
 def setup():
     global SERVER,server,PORT
     PORT = jsontodict("CONST.json")["PORT"]
@@ -20,7 +21,7 @@ def setup():
 setup()
 
 def chunkrecv(conn:socket.socket):
-    global connected
+    global connected,ControlS
     l_by = conn.recv(4)
     if not l_by:
         connected = False
@@ -34,7 +35,8 @@ def chunkrecv(conn:socket.socket):
             connected = False
             break
         msg += chunk
-    return bytestodic(msg)
+    ControlS = bytestodic(msg)
+    # return bytestodic(msg)
 
 
 def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
@@ -51,6 +53,11 @@ def start():
         Conn, addr = server.accept()
         connected = True
         print("Client Connected")
+
+def recv():
+    while True:
+       if connected:
+           chunkrecv(Conn)
 
 
 mainsocket = threading.Thread(target=start)

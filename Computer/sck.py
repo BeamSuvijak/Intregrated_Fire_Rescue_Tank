@@ -33,6 +33,13 @@ def chunkrecv(conn:socket.socket):
             "Status" : dicmsg["STA"]
         }
 
+def data_send(dic:dict): # Do not use boolean. It will crash.
+    conn = client
+    if connected:
+        msg = dictobytes(dic)
+        conn.send(chunkpending(msg))
+        conn.send(msg)
+
 def recv():
     global current_data
     while True:

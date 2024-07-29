@@ -5,3 +5,5 @@ import keyboardPWM
 while True:
     frame = sck.current_data["Frame"]
     pos,genframe = frame_process.process(frame)
+    keyboardPWM.showframe(genframe)
+    sck.data_send(keyboardPWM.controlK)
