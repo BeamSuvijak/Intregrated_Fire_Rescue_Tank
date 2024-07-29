@@ -75,12 +75,13 @@ def run(prn=False):
         if status==-1: precontrol["stepper"]["operate"] = 0
         else: precontrol["stepper"]["operate"] = 1
         controlK = precontrol
-
-        time.sleep(0.1)
+        
     pygame.quit()
 
 thd = threading.Thread(target=run)
 
 if __name__  == "__main__":
     run(True)
-else: thd.start()
+else:
+    print("setting up keyboard...")
+    thd.start()
