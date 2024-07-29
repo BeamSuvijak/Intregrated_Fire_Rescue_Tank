@@ -11,7 +11,8 @@ while True:
     command.update(controlX)
     txtofimg = GETframe.fetch()
     toCOM = {
-        'IMG':txtofimg
+        'IMG':txtofimg,
+        'STA':''
     }
     if(Conn): socketHOST.data_send(Conn, toCOM)
     print(txtofimg)

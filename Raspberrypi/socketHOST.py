@@ -18,6 +18,7 @@ def setup():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((SERVER,PORT))
 setup()
+
 def chunkrecv(conn:socket.socket):
     global connected
     l_by = conn.recv(4)
@@ -34,24 +35,6 @@ def chunkrecv(conn:socket.socket):
             break
         msg += chunk
     return bytestodic(msg)
-
-
-# def handcli(conn,addr):
-#     global Control, connected
-#     print(f"Connection at {addr}")
-#     connected = True
-#     while connected:
-#         # continue
-#         msg = chunkrecv(conn)
-#         Control = bytestodic(msg)
-#         recv_data = Control
-#         print(f"[{recv_data['time']}] {recv_data['name']} : {recv_data['text']}")
-#
-#
-#
-#     conn.close()
-#     print("Disconnected")
-#     Control = dict()
 
 
 def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
