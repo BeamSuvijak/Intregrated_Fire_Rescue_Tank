@@ -5,7 +5,7 @@ import threading
 current_img = ''    #STRING
 while True:
     try:
-        cap = cv2.VideoCapture(1)
+        cap = cv2.VideoCapture(0)
         break
     except: pass
 

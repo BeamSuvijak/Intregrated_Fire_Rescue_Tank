@@ -11,11 +11,30 @@ Control = dict()
 Conn = None
 connected = False
 PORT = None
-ControlS = {}
+ControlS = {
+    "MOTOR" : {
+        "L" : 0, # range -100  <-> 100
+        "R" : 0
+    },
+    "solinoid" : 0,
+    "pump" : 0,
+    "stepper" : {
+        "operate" : 0,
+        "dir" : 0,
+        "Limitup" : 0,
+        "Limitdw" : 0
+    },
+    "light" : {
+        "error" : 0,
+        "connected" : 0,
+        "operating" : 0
+    }
+}
 def setup():
+    print("setting up socket...")
     global SERVER,server,PORT
-    PORT = jsontodict("CONST.json")["PORT"]
-    SERVER = socket.gethostbyname(socket.gethostname())
+    PORT = 5050
+    SERVER = input("Enter your IP : ")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((SERVER,PORT))
 setup()
@@ -49,7 +68,7 @@ def start():
     global Conn,connected
     server.listen()
     print(f"[LISTENING] on {socket.gethostbyname(SERVER)} PORT:{PORT}")
-    while True:
+    if True:
         Conn, addr = server.accept()
         connected = True
         print("Client Connected")

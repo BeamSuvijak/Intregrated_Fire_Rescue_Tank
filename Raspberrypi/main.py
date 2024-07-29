@@ -15,4 +15,4 @@ while True:
         'STA':''
     }
     if(Conn): socketHOST.data_send(Conn, toCOM)
-    print(txtofimg)
+    # print(txtofimg)
