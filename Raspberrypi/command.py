@@ -25,14 +25,41 @@ control = {
 """
 GPIO PIN
 """
-ml1,ml2,mr1,mr2 = 16,18,13,15
-steppin = 40
-pindir = 38
-pump = 11
-soli = 31
-liup = 33
-lidown = 35
-light = [1,2,3]
+class MOTORPIN:
+    def __init__(self,pwm,en1,en2):
+        self.pwm = pwm
+        self.en1 = en1
+        self.en2 = en2
+        gpio.setup(pwm,gpio.OUT)
+        gpio.setup(en1,gpio.OUT)
+        gpio.setup(en2,gpio.OUT)
+        self.PWM = gpio.PWM(pwm,25000)
+        self.PWM.start(0)
+class MOTOR:
+    def __init__(self,pwm,en1,en2):
+        self.PIN = MOTORPIN(pwm,en1,en2)
+        self.speed = 0
+        self.dir = 0
+    def execute(self):
+        self.PIN.PWM.ChangeDutyCycle(abs(self.speed))
+        if(dir):
+            gpio.output(self.PIN.en1,1),gpio.output(self.PIN.en2,0)
+        else: gpio.output(self.PIN.en1,0),gpio.output(self.PIN.en2,1)
+    def update(self,dir,speed):
+        self.speed = speed
+        self.dir = dir
+        self.execute()
+steppin = 24
+pindir = 22
+pump = 26
+soli = 29
+liup = 21
+lidown = 23
+light = [8,10,12]
+
+MOTORL = MOTOR(33,35,37)
+MOTORR = MOTOR(32,36,38)
+
 """
 """
 
@@ -50,21 +77,14 @@ init()
 
 def driveL():
     logic = control["MOTOR"]["L"]
-    if(logic==0): gpio.output([ml1,ml2],0)
-    elif(logic==1): gpio.output(ml1,1),gpio.output(ml2,0)
-    else: gpio.output(ml1,0),gpio.output(ml2,1)
+    if(logic<0): MOTORL.update(0,abs(logic))
+    else: MOTORL.update(1,logic)
 
 def driveR():
     logic = control["MOTOR"]["R"]
-    if(logic==0): gpio.output([mr1,mr2],0)
-    elif(logic==1): gpio.output(mr1,1),gpio.output(mr2,0)
-    else: gpio.output(mr1,0),gpio.output(mr2,1)
+    if(logic<0): MOTORR.update(0,abs(logic))
+    else: MOTORR.update(1,logic)
 
-def stop():
-    gpio.output(mr1,0)
-    gpio.output(ml1,0)
-    gpio.output(mr2,0)
-    gpio.output(ml2,0)
 
 def stepper():
     if(control["stepper"]["operate"]):

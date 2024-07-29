@@ -11,7 +11,7 @@ model = None
 def setup():
     global model
     model = YOLO("BottleGen1.pt")
-
+setup()
 def process(frame,Show_frame=False):
     box_locat = dict()
     annotator = Annotator(frame, line_width=2)
@@ -30,10 +30,10 @@ def process(frame,Show_frame=False):
                 box_locat[str(track_id)] = {
                     "Header": "frame",
                     "Class": class_id,
-                    "X": float(pos_id[0]),
-                    "Y": float(pos_id[1]),
-                    "Width": float(pos_id[2]),
-                    "Height": float(pos_id[3])
+                    "X": int(pos_id[0]),
+                    "Y": int(pos_id[1]),
+                    "Width": int(pos_id[2]),
+                    "Height": int(pos_id[3])
                 }
     if Show_frame:
         cv2.imshow("instance-segmentation-object-tracking", frame)
@@ -41,7 +41,6 @@ def process(frame,Show_frame=False):
     return (box_locat, frame)
 
 if __name__ == "__main__":
-    setup()
     cap = cv2.VideoCapture(0)
     while True:
         _, frame = cap.read()

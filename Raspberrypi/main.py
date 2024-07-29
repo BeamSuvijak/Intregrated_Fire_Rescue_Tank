@@ -1,11 +1,11 @@
-import keyboard
+import keyboardPWM
 import command
 import GETframe
 
 
 
 while True:
-    controlX = keyboard.controlK
+    controlX = keyboardPWM.controlK
     command.update(controlX)
     txtofimg = GETframe.fetch()
     toCOM = {
