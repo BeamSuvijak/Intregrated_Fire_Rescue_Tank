@@ -1,8 +1,10 @@
 import keyboardPWM
 import command
 import GETframe
+import socketHOST
 
-
+Conn = None
+socketHOST.start()
 
 while True:
     controlX = keyboardPWM.controlK
@@ -11,4 +13,5 @@ while True:
     toCOM = {
         'IMG':txtofimg
     }
+    if(Conn): socketHOST.data_send(Conn, toCOM)
     print(txtofimg)
