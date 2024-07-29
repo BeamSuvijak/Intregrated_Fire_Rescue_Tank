@@ -5,7 +5,7 @@ import socketHOST
 
 Conn = None
 socketHOST.start()
-
+Conn = socketHOST.Conn
 while True:
     controlX = socketHOST.ControlS
     command.update(controlX)
@@ -15,4 +15,4 @@ while True:
         'STA':''
     }
     if(Conn): socketHOST.data_send(Conn, toCOM)
-    print(txtofimg)
+    # print(txtofimg)
