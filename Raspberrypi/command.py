@@ -25,6 +25,9 @@ control = {
 """
 GPIO PIN
 """
+
+gpio.setmode(gpio.BOARD)
+
 class MOTORPIN:
     def __init__(self,en1,en2):
         self.en1 = en1
@@ -58,7 +61,6 @@ MOTORR = MOTOR(36,38)
 
 
 def init():
-    gpio.setmode(gpio.BOARD)
     gpio.setup(steppin,gpio.OUT)
     gpio.setup(pindir,gpio.OUT)
     gpio.setup(pump,gpio.OUT)
