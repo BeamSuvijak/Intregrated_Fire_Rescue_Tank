@@ -1,6 +1,7 @@
 import cv2
 import assestfunction
 import threading
+import time
 
 current_img = ''    #STRING
 while True:
@@ -17,6 +18,7 @@ def mainloop():
         _,frame = cap.read()
         current_img = assestfunction.imgtotxt(frame)
         cv2.imshow("frame",frame)
+        time.sleep(0.1)
         cv2.waitKey(1)
 thd = threading.Thread(target=mainloop)
 def fetch():

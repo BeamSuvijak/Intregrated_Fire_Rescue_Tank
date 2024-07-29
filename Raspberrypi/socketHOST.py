@@ -64,6 +64,12 @@ def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
         conn.send(chunkpending(msg))
         conn.send(msg)
 
+def recv():
+    while True:
+       if connected:
+           chunkrecv(Conn)
+rec_thd = threading.Thread(target=recv)
+
 def start():
     global Conn,connected
     server.listen()
@@ -72,11 +78,7 @@ def start():
         Conn, addr = server.accept()
         connected = True
         print("Client Connected")
-
-def recv():
-    while True:
-       if connected:
-           chunkrecv(Conn)
+        rec_thd.start()
 
 
 mainsocket = threading.Thread(target=start)

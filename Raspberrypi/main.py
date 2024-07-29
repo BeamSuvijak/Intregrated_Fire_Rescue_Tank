@@ -5,7 +5,7 @@ import socketHOST
 
 Conn = None
 socketHOST.start()
-
+Conn = socketHOST.Conn
 while True:
     controlX = socketHOST.ControlS
     command.update(controlX)
