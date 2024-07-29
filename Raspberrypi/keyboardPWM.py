@@ -1,5 +1,6 @@
 import pygame
 import threading
+import time
 
 control_template = {
     "MOTOR" : {
@@ -74,6 +75,8 @@ def run(prn=False):
         if status==-1: precontrol["stepper"]["operate"] = 0
         else: precontrol["stepper"]["operate"] = 1
         controlK = precontrol
+
+        time.sleep(0.1)
     pygame.quit()
 
 thd = threading.Thread(target=run)
