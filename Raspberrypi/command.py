@@ -26,27 +26,20 @@ control = {
 GPIO PIN
 """
 class MOTORPIN:
-    def __init__(self,pwm,en1,en2):
-        self.pwm = pwm
+    def __init__(self,en1,en2):
         self.en1 = en1
         self.en2 = en2
-        gpio.setup(pwm,gpio.OUT)
         gpio.setup(en1,gpio.OUT)
         gpio.setup(en2,gpio.OUT)
-        self.PWM = gpio.PWM(pwm,25000)
-        self.PWM.start(0)
 class MOTOR:
-    def __init__(self,pwm,en1,en2):
-        self.PIN = MOTORPIN(pwm,en1,en2)
-        self.speed = 0
+    def __init__(self,en1,en2):
+        self.PIN = MOTORPIN(en1,en2)
         self.dir = 0
     def execute(self):
-        self.PIN.PWM.ChangeDutyCycle(abs(self.speed))
-        if(dir):
-            gpio.output(self.PIN.en1,1),gpio.output(self.PIN.en2,0)
-        else: gpio.output(self.PIN.en1,0),gpio.output(self.PIN.en2,1)
-    def update(self,dir,speed):
-        self.speed = speed
+        if(self.dir>0): gpio.output(self.PIN.en1,1),gpio.output(self.PIN.en2,0)
+        elif(self.dir<0): gpio.output(self.PIN.en1,0),gpio.output(self.PIN.en2,1)
+        else: gpio.output(self.PIN.en1,0),gpio.output(self.PIN.en2,0)
+    def update(self,dir):
         self.dir = dir
         self.execute()
 steppin = 24
@@ -57,8 +50,8 @@ liup = 21
 lidown = 23
 light = [8,10,12]
 
-MOTORL = MOTOR(33,35,37)
-MOTORR = MOTOR(32,36,38)
+MOTORL = MOTOR(35,37)
+MOTORR = MOTOR(36,38)
 
 """
 """
@@ -72,18 +65,16 @@ def init():
     gpio.setup(soli,gpio.OUT)
     gpio.setup(liup,gpio.IN)
     gpio.setup(lidown,gpio.IN)
-    for pin in [16,18,13,15]: gpio.setup(pin,gpio.OUT)
+
 init()
 
 def driveL():
     logic = control["MOTOR"]["L"]
-    if(logic<0): MOTORL.update(0,abs(logic))
-    else: MOTORL.update(1,logic)
+    MOTORL.update(logic)
 
 def driveR():
     logic = control["MOTOR"]["R"]
-    if(logic<0): MOTORR.update(0,abs(logic))
-    else: MOTORR.update(1,logic)
+    MOTORR.update(logic)
 
 
 def stepper():
@@ -95,7 +86,7 @@ def stepper():
         time.sleep(0.00075)
 
 def relay():
-    port = [11,31]
+    port = [pump,soli]
     complogic = [control["pump"],control["solinoid"]]
     for k,v in enumerate(port):
         gpio.output(v,complogic[k])
