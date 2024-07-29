@@ -1,4 +1,4 @@
-ssssimport keyboardPWM
+import keyboardPWM
 import command
 
 while True:
