@@ -83,5 +83,5 @@ thd = threading.Thread(target=run)
 if __name__  == "__main__":
     run(True)
 else:
-    print("setting up keyboard...")
+    print("[keyboardPWM] : setting up keyboard...")
     thd.start()
