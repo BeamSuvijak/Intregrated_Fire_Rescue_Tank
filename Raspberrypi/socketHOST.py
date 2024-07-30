@@ -66,8 +66,9 @@ def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
 
 def recv():
     while True:
-       if connected:
+        if connected:
            chunkrecv(Conn)
+        else: mainsocket.start()
 rec_thd = threading.Thread(target=recv)
 
 def start():
