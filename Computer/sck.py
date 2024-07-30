@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 from assestfunction import *
 
 PORT = 5050
@@ -12,9 +13,11 @@ connected = True
 current_data = {}
 
 def chunkrecv(conn:socket.socket):
+
     global connected
     global current_data
     l_by = conn.recv(4)
+
     if not l_by:
         connected = False
     msg_length = struct.unpack("!I", l_by)[0]
@@ -27,11 +30,11 @@ def chunkrecv(conn:socket.socket):
             connected = False
             break
         msg += chunk
-        dicmsg = bytestodic(msg)
-        current_data = {
-            "Frame" : bytestoimg(dicmsg["IMG"]),
-            "Status" : dicmsg["STA"]
-        }
+    dicmsg = bytestodic(msg)
+    current_data = {
+        "Frame" : bytestoimg(dicmsg["IMG"]),
+        "Status" : dicmsg["STA"]
+    }
 
 def data_send(dic:dict): # Do not use boolean. It will crash.
     conn = client
@@ -46,7 +49,7 @@ def recv():
         chunkrecv(client)
 
 recv_thd = threading.Thread(target=recv)
-
+time.sleep(2)
 if __name__  == "__main__":
     recv()
 else: recv_thd.start()
