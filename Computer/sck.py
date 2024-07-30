@@ -12,6 +12,8 @@ connected = True
 
 current_data = {}
 
+premsg = b''
+
 def chunkrecv(conn:socket.socket):
 
     global connected
@@ -38,10 +40,15 @@ def chunkrecv(conn:socket.socket):
 
 def data_send(dic:dict): # Do not use boolean. It will crash.
     conn = client
+    global premsg
     if connected:
         msg = dictobytes(dic)
-        conn.send(chunkpending(msg))
-        conn.send(msg)
+        if(msg != premsg):
+            conn.send(chunkpending(msg))
+            conn.send(msg)
+            premsg = msg
+            print(dic)
+
 
 def recv():
     global current_data
