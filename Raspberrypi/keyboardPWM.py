@@ -1,6 +1,9 @@
 import pygame
 import threading
 import time
+import os
+
+
 
 control_template = {
     "MOTOR" : {
@@ -36,7 +39,8 @@ def inn(lst:list,*args):
 def run(prn=False):
     global controlK
     pygame.init()
-    screen = pygame.display.set_mode((640, 480))
+    screen = pygame.display.set_mode((1, 1))
+    
     pre_pressed_keys=[]
     pressed_keys = []
     running = True
@@ -83,5 +87,5 @@ thd = threading.Thread(target=run)
 if __name__  == "__main__":
     run(True)
 else:
-    print("setting up keyboard...")
+    print("[keyboardPWM] : setting up keyboard...")
     thd.start()

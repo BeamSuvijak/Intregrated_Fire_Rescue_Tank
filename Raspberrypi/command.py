@@ -62,7 +62,7 @@ MOTORR = MOTOR(38,36)
 
 
 def init():
-    print("setting up command...")
+    print("[command] : setting up command...")
     gpio.setup(steppin,gpio.OUT)
     gpio.setup(pindir,gpio.OUT)
     gpio.setup(pump,gpio.OUT)

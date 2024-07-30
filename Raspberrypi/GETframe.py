@@ -10,6 +10,8 @@ while True:
         break
     except: pass
 
+print("[GETframe] : Camera Started")
+
 
 
 def mainloop(Showframe=False):
@@ -20,7 +22,7 @@ def mainloop(Showframe=False):
         if(Showframe):
             cv2.imshow("frame",frame)
             cv2.waitKey(1)
-        time.sleep(0.1)
+        time.sleep(0.01)
         
 thd = threading.Thread(target=mainloop)
 def fetch():
