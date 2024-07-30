@@ -11,15 +11,36 @@ Control = dict()
 Conn = None
 connected = False
 PORT = None
+ControlS = {
+    "MOTOR" : {
+        "L" : 0, # range -100  <-> 100
+        "R" : 0
+    },
+    "solinoid" : 0,
+    "pump" : 0,
+    "stepper" : {
+        "operate" : 0,
+        "dir" : 0,
+        "Limitup" : 0,
+        "Limitdw" : 0
+    },
+    "light" : {
+        "error" : 0,
+        "connected" : 0,
+        "operating" : 0
+    }
+}
 def setup():
+    print("setting up socket...")
     global SERVER,server,PORT
-    PORT = jsontodict("CONST.json")["PORT"]
-    SERVER = socket.gethostbyname(socket.gethostname())
+    PORT = 5050
+    SERVER = input("Enter your IP : ")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((SERVER,PORT))
 setup()
+
 def chunkrecv(conn:socket.socket):
-    global connected
+    global connected,ControlS
     l_by = conn.recv(4)
     if not l_by:
         connected = False
@@ -33,25 +54,8 @@ def chunkrecv(conn:socket.socket):
             connected = False
             break
         msg += chunk
-    return bytestodic(msg)
-
-
-# def handcli(conn,addr):
-#     global Control, connected
-#     print(f"Connection at {addr}")
-#     connected = True
-#     while connected:
-#         # continue
-#         msg = chunkrecv(conn)
-#         Control = bytestodic(msg)
-#         recv_data = Control
-#         print(f"[{recv_data['time']}] {recv_data['name']} : {recv_data['text']}")
-#
-#
-#
-#     conn.close()
-#     print("Disconnected")
-#     Control = dict()
+    ControlS = bytestodic(msg)
+    # return bytestodic(msg)
 
 
 def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
@@ -60,14 +64,21 @@ def data_send(conn:socket.socket,dic:dict): # Do not use boolean. It will crash.
         conn.send(chunkpending(msg))
         conn.send(msg)
 
+def recv():
+    while True:
+       if connected:
+           chunkrecv(Conn)
+rec_thd = threading.Thread(target=recv)
+
 def start():
     global Conn,connected
     server.listen()
     print(f"[LISTENING] on {socket.gethostbyname(SERVER)} PORT:{PORT}")
-    while True:
+    if True:
         Conn, addr = server.accept()
         connected = True
         print("Client Connected")
+        rec_thd.start()
 
 
 mainsocket = threading.Thread(target=start)

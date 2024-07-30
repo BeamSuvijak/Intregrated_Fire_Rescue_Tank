@@ -1,17 +1,18 @@
-import keyboardPWM
+# import keyboardPWM
 import command
 import GETframe
 import socketHOST
 
 Conn = None
 socketHOST.start()
-
+Conn = socketHOST.Conn
 while True:
-    controlX = keyboardPWM.controlK
+    controlX = socketHOST.ControlS
     command.update(controlX)
     txtofimg = GETframe.fetch()
     toCOM = {
-        'IMG':txtofimg
+        'IMG':txtofimg,
+        'STA':''
     }
     if(Conn): socketHOST.data_send(Conn, toCOM)
-    print(txtofimg)
+    # print(txtofimg)

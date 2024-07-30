@@ -1,6 +1,10 @@
 import pygame
 import threading
 import time
+import numpy as np
+import cv2
+
+PGFRAME = cv2.imread("waiting.png")
 
 control_template = {
     "MOTOR" : {
@@ -32,6 +36,9 @@ def inn(lst:list,*args):
     # print(args.issubset(lst) )
     return args.issubset(lst)
 
+def showframe(frame):
+    global PGFRAME
+    PGFRAME = frame
 
 def run(prn=False):
     global controlK
@@ -75,13 +82,36 @@ def run(prn=False):
         if status==-1: precontrol["stepper"]["operate"] = 0
         else: precontrol["stepper"]["operate"] = 1
         controlK = precontrol
-        
+
+        frame = PGFRAME
+        try:
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = np.rot90(frame)
+            frame = np.flip(frame, axis=0)
+                    # Convert the frame to a surface that Pygame can display
+            # Convert the frame to a surface that Pygame can display
+            frame = pygame.surfarray.make_surface(frame)
+
+            # Display the frame in the Pygame window
+            screen.blit(frame, (0, 0))
+            pygame.display.update()
+        except:
+            pass
+
+        time.sleep(0.1)
     pygame.quit()
 
+
+def selfrun():
+    cap = cv2.VideoCapture(0)
+    global PGFRAME
+    while True:
+        _,PGFRAME = cap.read()
+
+sfrun = threading.Thread(target=selfrun)
 thd = threading.Thread(target=run)
 
 if __name__  == "__main__":
+    sfrun.start()
     run(True)
-else:
-    print("setting up keyboard...")
-    thd.start()
+else: thd.start()

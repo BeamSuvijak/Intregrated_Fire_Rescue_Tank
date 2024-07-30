@@ -1,6 +1,6 @@
 import RPi.GPIO as gpio
 import time
-import threading
+
 
 control = {
     "MOTOR" : {
@@ -26,6 +26,7 @@ control = {
 GPIO PIN
 """
 
+gpio.setwarnings(False)
 gpio.setmode(gpio.BOARD)
 
 class MOTORPIN:
@@ -45,22 +46,23 @@ class MOTOR:
     def update(self,dir):
         self.dir = dir
         self.execute()
-steppin = 24
-pindir = 22
+steppin = 22
+pindir = 24
 pump = 26
 soli = 29
 liup = 21
 lidown = 23
 light = [8,10,12]
 
-MOTORL = MOTOR(35,37)
-MOTORR = MOTOR(36,38)
+MOTORL = MOTOR(37,35)
+MOTORR = MOTOR(38,36)
 
 """
 """
 
 
 def init():
+    print("setting up command...")
     gpio.setup(steppin,gpio.OUT)
     gpio.setup(pindir,gpio.OUT)
     gpio.setup(pump,gpio.OUT)
