@@ -48,11 +48,11 @@ class MOTOR:
         self.execute()
 steppin = 22
 pindir = 24
-pump = 26
+pump = 8
 soli = 29
 liup = 21
 lidown = 23
-light = [8,10,12]
+light = [26,10,12]
 
 MOTORL = MOTOR(37,35)
 MOTORR = MOTOR(38,36)
@@ -82,6 +82,7 @@ def driveR():
 
 
 def stepper():
+    
     if(control["stepper"]["operate"]):
         gpio.output(pindir,control["stepper"]["dir"])
         gpio.output(steppin,1)
