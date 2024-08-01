@@ -4,15 +4,10 @@ import threading
 import time
 
 current_img = ''    #STRING
-while True:
-    try:
-        cap = cv2.VideoCapture(0)
-        break
-    except: pass
-
-print("[GETframe] : Camera Started")
-
-
+cap = cv2.VideoCapture(0)
+OPEN = cap.isOpened()
+if(OPEN): print("[GETframe] : Camera Started")
+else: print("[GETframe] : Camera undetected")
 
 def mainloop(Showframe=False):
     global current_img
@@ -29,6 +24,6 @@ def fetch():
     return current_img
 
 if __name__ == "__main__":
-    mainloop(True)
+    if(OPEN): mainloop(True)
 else:
-    thd.start()
+    if(OPEN): thd.start()

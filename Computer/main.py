@@ -15,6 +15,7 @@ send_thd.start()
 print("START")
 while True:
     try:
+        if(not sck.current_data.get("Frame")): break
         frame = sck.current_data["Frame"]
         # pos,genframe = frame_process.process(frame)
         keyboardPWM.showframe(frame)

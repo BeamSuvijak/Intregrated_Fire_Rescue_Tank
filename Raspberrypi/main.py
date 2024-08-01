@@ -24,10 +24,12 @@ while True:
     camera = True
     controlX = socketHOST.ControlS
     command.update(controlX)
-    txtofimg = GETframe.fetch()
+
     toCOM = {
-        'IMG':txtofimg,
         'STA':''
     }
+    if(GETframe.OPEN):
+        txtofimg = GETframe.fetch()
+        toCOM["IMG"] = txtofimg
     
     # print(txtofimg)
