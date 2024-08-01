@@ -14,7 +14,7 @@ camera = False
 
 def mainsend():
     while True:
-        if camera: socketHOST.data_send(toCOM)
+        if camera and GETframe.CAMON: socketHOST.data_send(toCOM)
         time.sleep(1/fps)
 thdsend = threading.Thread(target=mainsend)
 thdsend.start()

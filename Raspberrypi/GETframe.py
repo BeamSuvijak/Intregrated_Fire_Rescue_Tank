@@ -5,8 +5,11 @@ import time
 
 current_img = ''    #STRING
 cap = cv2.VideoCapture(0)
+CAMON = False
 OPEN = cap.isOpened()
-if(OPEN): print("[GETframe] : Camera Started")
+if(OPEN):
+    print("[GETframe] : Camera Started")
+    CAMON = True
 else: print("[GETframe] : Camera undetected")
 
 def mainloop(Showframe=False):
