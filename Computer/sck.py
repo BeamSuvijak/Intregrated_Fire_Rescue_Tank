@@ -34,9 +34,10 @@ def chunkrecv(conn:socket.socket):
         msg += chunk
     dicmsg = bytestodic(msg)
     current_data = {
-        "Frame" : bytestoimg(dicmsg["IMG"]),
         "Status" : dicmsg["STA"]
     }
+    if(dicmsg.get("IMG")):
+        current_data["Frame"] = bytestoimg(dicmsg["IMG"])
 
 def data_send(dic:dict): # Do not use boolean. It will crash.
     conn = client
