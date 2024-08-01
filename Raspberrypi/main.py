@@ -14,7 +14,7 @@ camera = False
 
 def mainsend():
     while True:
-        if camera and GETframe.CAMON: socketHOST.data_send(toCOM)
+        if camera: socketHOST.data_send(toCOM)
         time.sleep(1/fps)
 thdsend = threading.Thread(target=mainsend)
 thdsend.start()
@@ -24,12 +24,10 @@ while True:
     camera = True
     controlX = socketHOST.ControlS
     command.update(controlX)
-
+    txtofimg = GETframe.fetch()
     toCOM = {
+        'IMG':txtofimg,
         'STA':''
     }
-    if(GETframe.OPEN):
-        txtofimg = GETframe.fetch()
-        toCOM["IMG"] = txtofimg
     
     # print(txtofimg)
