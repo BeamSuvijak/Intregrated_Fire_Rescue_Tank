@@ -14,9 +14,12 @@ header {
 }
 
 header .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ff9900;
+    background-image: url("IFRTlogo.png");
+    width: 150px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 nav ul {
